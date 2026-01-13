@@ -39,7 +39,7 @@ PRODUCT_COPY_FILES += \
 
 # Dolby VNDK libs
 PRODUCT_PACKAGES += \
-    libstagefright_foundation-v33 \
+    libstagefright_foundation-v33 
     
 
 PRODUCT_PACKAGES += \
@@ -165,3 +165,7 @@ PRODUCT_PACKAGES += \
     libswdap \
     libswgamedap \
     libswvqe \
+    libmisoundsa \
+    libswspatializer_ext \
+    libspatializer \
+    libquasar \

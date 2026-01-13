@@ -552,3 +552,132 @@ cc_prebuilt_library_shared {
     soc_specific: true,
 }
 
+cc_prebuilt_library_shared {
+    name: "libspatializer",
+    owner: "xiaomi",
+    vendor: true,
+
+    target: {
+        android_arm: {
+            srcs: ["proprietary/vendor/lib/soundfx/libspatializer.so"],
+        },
+        android_arm64: {
+            srcs: ["proprietary/vendor/lib64/soundfx/libspatializer.so"],
+        },
+    },
+
+    strip: {
+        none: true,
+    },
+
+    shared_libs: [
+        "liblog",
+        "libutils",
+        "libcutils",
+        "libmisoundsa",
+        "libswspatializer_ext",
+        "libc++",
+    ],
+
+    compile_multilib: "both",
+    relative_install_path: "soundfx",
+    prefer: true,
+    soc_specific: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libswspatializer_ext",
+    owner: "xiaomi",
+    vendor: true,
+
+    target: {
+        android_arm: {
+            srcs: ["proprietary/vendor/lib/libswspatializer_ext.so"],
+        },
+        android_arm64: {
+            srcs: ["proprietary/vendor/lib64/libswspatializer_ext.so"],
+        },
+    },
+
+    strip: {
+        none: true,
+    },
+
+    shared_libs: [
+        "liblog",
+        "libutils",
+        "libcutils",
+        "libaudioutils",
+        "libdapparamstorage",
+        "libspatializerparamstorage",
+        "libhidlbase",
+        "libstagefright_foundation",
+        "libdlbpreg",
+        "vendor.dolby.hardware.dms@2.0",
+        "libc++",
+    ],
+
+    compile_multilib: "both",
+    prefer: true,
+    soc_specific: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libmisoundsa",
+    owner: "xiaomi",
+    vendor: true,
+
+    target: {
+        android_arm: {
+            srcs: ["proprietary/vendor/lib/libmisoundsa.so"],
+        },
+        android_arm64: {
+            srcs: ["proprietary/vendor/lib64/libmisoundsa.so"],
+        },
+    },
+
+    strip: {
+        none: true,
+    },
+
+    shared_libs: [
+        "liblog",
+        "libc",
+        "libm",
+        "libdl",
+    ],
+
+    compile_multilib: "both",
+    prefer: true,
+    soc_specific: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libquasar",
+    owner: "xiaomi",
+    vendor: true,
+
+    target: {
+        android_arm: {
+            srcs: ["proprietary/vendor/lib/soundfx/libquasar.so"],
+        },
+        android_arm64: {
+            srcs: ["proprietary/vendor/lib64/soundfx/libquasar.so"],
+        },
+    },
+
+    strip: {
+        none: true,
+    },
+
+    shared_libs: [
+        "libcutils",
+        "liblog",
+        "libc++",
+    ],
+
+    compile_multilib: "both",
+    relative_install_path: "soundfx",
+    prefer: true,
+    soc_specific: true,
+}
