@@ -39,7 +39,8 @@ PRODUCT_COPY_FILES += \
 
 # Dolby VNDK libs
 PRODUCT_PACKAGES += \
-    libstagefright_foundation-v33
+    libstagefright_foundation-v33 \
+    
 
 PRODUCT_PACKAGES += \
     libshim_dolby
@@ -54,7 +55,7 @@ PRODUCT_PACKAGES += \
 
 # Spatial Audio
 PRODUCT_COPY_FILES += \
-    $(DOLBY_PATH)/configs/android.hardware.sensor.dynamic.head_tracker.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.dynamic.head_tracker.xml \
+     frameworks/native/data/etc/android.hardware.sensor.dynamic.head_tracker.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.dynamic.head_tracker.xml \
 
 # Spatial Audio: optimize spatializer effect
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -66,6 +67,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
        ro.audio.headtracking_enabled=true \
        ro.audio.spatializer_transaural_enabled_default=false \
        persist.vendor.audio.spatializer.speaker_enabled=true \
+       ro.vendor.audio.feature.spatial=7 \
+       audio.spatializer.pose_predictor_type=2 \
+       audio.spatializer.prediction_duration_ms=50 \
+       
 
 # Spatial Audio Proprietary blobs
 PRODUCT_PACKAGES += \
@@ -89,7 +94,11 @@ PRODUCT_VENDOR_PROPERTIES += \
 
 # Dolby Props
 PRODUCT_VENDOR_PROPERTIES += \
-    ro.vendor.dolby.dax.version=DAX3_3.7.0.8_r1 \
+    ro.vendor.dolby.dax.version=DAX3_3.8.5.20_r1 \
+    ro.vendor.audio.dolby.dax.version=DAX3_3.8.5.20_r1 \
+    ro.vendor.audio.dolby.dax.support=true \
+    ro.vendor.audio.dolby.eq.half=true \
+    ro.vendor.audio.dolby.surround.enable=false \
     vendor.audio.dolby.ds2.hardbypass=false \
     vendor.audio.dolby.ds2.enabled=false
 
@@ -139,6 +148,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     libdapparamstorage \
+    libswspatializer \
     libdlbpreg \
     vendor.dolby.hardware.dms@2.0 \
     libdlbdsservice \
