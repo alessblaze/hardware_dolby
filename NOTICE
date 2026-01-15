@@ -144,6 +144,7 @@ I am not sure is that what they meant in CVE-2025-54957.
 The udc  UDC v4.5 -> UDC v4.13 . this seems 6.2 but the
 date is 2025 so possible vendor numbers somehow differently
 derived.
+Reverse Engineering done with Nsa Ghidra. 
 ===========================================================
 END
 ===========================================================
