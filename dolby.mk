@@ -25,12 +25,12 @@ PRODUCT_SOONG_NAMESPACES += \
 AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true
 
 # SEPolicy
-BOARD_VENDOR_SEPOLICY_DIRS += $(DOLBY_PATH)/sepolicy/vendor
+#BOARD_VENDOR_SEPOLICY_DIRS += $(DOLBY_PATH)/sepolicy/vendor
 
 # HIDL
-DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(DOLBY_PATH)/dolby_framework_matrix.xml
-DEVICE_MANIFEST_FILE += $(DOLBY_PATH)/vendor.dolby.hardware.dms@2.0-service.xml
-DEVICE_MANIFEST_FILE += $(DOLBY_PATH)/vendor.dolby.media.c2.xml
+#DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(DOLBY_PATH)/dolby_framework_matrix.xml
+#DEVICE_MANIFEST_FILE += $(DOLBY_PATH)/vendor.dolby.hardware.dms@2.0-service.xml
+#DEVICE_MANIFEST_FILE += $(DOLBY_PATH)/vendor.dolby.media.c2.xml
     
 # Configs
 PRODUCT_COPY_FILES += \
@@ -89,7 +89,11 @@ PRODUCT_VENDOR_PROPERTIES += \
 
 # Dolby Props
 PRODUCT_VENDOR_PROPERTIES += \
-    ro.vendor.dolby.dax.version=DAX3_3.7.0.8_r1 \
+    ro.vendor.dolby.dax.version=DAX3_3.8.5.20_r1 \
+    ro.vendor.audio.dolby.dax.version=DAX3_3.8.5.20_r1 \
+    ro.vendor.audio.dolby.dax.support=true \
+    ro.vendor.audio.dolby.eq.half=true \
+    ro.vendor.audio.dolby.surround.enable=false \
     vendor.audio.dolby.ds2.hardbypass=false \
     vendor.audio.dolby.ds2.enabled=false
 
@@ -103,7 +107,7 @@ PRODUCT_PACKAGES += \
 
 # DolbyAtmos
 PRODUCT_PACKAGES += \
-    DolbyAtmos
+    XiaomiDolby
 
 # Dolby Proprietary blobs
 PRODUCT_COPY_FILES += \
@@ -115,6 +119,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     libdapparamstorage \
+    libswspatializer \
     libdlbpreg \
     vendor.dolby.hardware.dms@2.0 \
     libdlbdsservice \
@@ -131,3 +136,7 @@ PRODUCT_PACKAGES += \
     libswdap \
     libswgamedap \
     libswvqe \
+    libmisoundsa \
+    libswspatializer_ext \
+    libspatializer \
+    libquasar \
