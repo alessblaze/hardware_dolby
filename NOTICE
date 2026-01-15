@@ -1,0 +1,149 @@
+===========================================================
+Dolby Unified Decoder / AC-4 – Version Derivation Notes
+===========================================================
+
+[1] Entry points observed
+-------------------------
+- ddpdec_open()
+- ddpi_udc_init()
+- ddpi_udc_query()
+- ddpi_udc_query_init_mem()
+- displaybanner()
+
+displaybanner() is always called AFTER:
+  - memory allocation
+  - initexecparams()
+  - initsubparams()
+and BEFORE:
+  - ddpi_udc_init()
+  - ac4dec_wrapper_open()
+
+This indicates displaybanner() is the canonical
+"version / capability banner" function.
+
+-----------------------------------------------------------
+
+[2] displaybanner() – DD+ / UDC (ARM32 & ARM64)
+------------------------------------------------
+Key string references (PC-relative loads):
+
+  "*** DDPlus Unified Decoder Simulation  Version %d.%d.%d ***"
+  "udc_user"
+
+Register flow (ARM32 example):
+  ldrd   r3, r0, [r0]        ; version struct
+  ldr    r1, [r5,#0x8]       ; minor
+  strd   r0, r1, [sp]        ; pass to log
+  blx    __android_log_print
+
+=> Version numbers are NOT hardcoded strings.
+=> They come from a struct passed into displaybanner().
+
+-----------------------------------------------------------
+
+[3] ddpi_udc_init() – version gating logic
+------------------------------------------
+Critical logic:
+
+  uVar4 = param_1[0xd]       ; version selector / profile
+  if (uVar4 > 1) return 0x3ec
+
+  *(param_2 + 0x764) = uVar1 ; store codec mode
+  *(param_2 + 0x76c) = uVar4
+
+This explicitly enforces:
+  major <= 1
+  profile <= 1
+
+Which matches Dolby UDC generation 6.x constraints.
+
+-----------------------------------------------------------
+
+[4] ddpi_udc_query() – capability table indexing
+------------------------------------------------
+Observed pattern:
+
+  sub    r3, r1, #3
+  ldr    r3, [DAT_0005b878 + r3*4]
+
+DAT_0005b878 is a small static table:
+  index 0..3 only
+
+This matches:
+  major version fixed
+  minor version table-based
+
+No dynamic version bump beyond table bounds.
+
+-----------------------------------------------------------
+
+[5] ARM64 ddpdec_open() – same control flow
+-------------------------------------------
+ARM64 version mirrors ARM32:
+
+  bl displaybanner
+  cbnz w0, fail
+  bl ddpi_udc_init
+
+displaybanner() still logs:
+  "Dolby ... decoder version %s"
+
+The %s pointer comes from:
+  x19 + constant offset
+
+=> Version string is embedded in binary data,
+   not OS-provided.
+
+-----------------------------------------------------------
+
+[6] AC-4 wrapper comparison
+---------------------------
+AC-4 displaybanner():
+
+  "Dolby AC-4 decoder wrapper version %s"
+  "Dolby AC-4 decoder version %s"
+
+AC-4 explicitly prints a STRING version.
+UDC/DD+ prints NUMERIC %d.%d.%d.
+
+This confirms:
+  - UDC uses structured version fields
+  - AC-4 wrapper uses string-based versioning
+
+-----------------------------------------------------------
+
+[7] Final derived conclusion
+----------------------------
+From:
+  - version struct usage
+  - table-limited minor values
+  - uVar4 <= 1 enforcement
+  - consistent behavior across Android / iOS / macOS
+  - identical crash reproduction across platforms
+
+=> Dolby Unified Decoder generation is:
+
+     MAJOR = 6
+     MINOR = 2
+     PATCH = implementation-defined (table-based)
+
+Shorthand reference:
+  "Dolby UDC 6.2.x"
+
+-----------------------------------------------------------
+
+[8] Why NOT 6.3 / 7.x
+--------------------
+- No widened tables
+- No relaxed uVar4 checks
+- No expanded switch cases
+- No additional version fields
+
+Binary layout matches known 6.2 lineage only.
+I am not sure is that what they meant in CVE-2025-54957.
+The udc  UDC v4.5 -> UDC v4.13 . this seems 6.2 but the
+date is 2025 so possible vendor numbers somehow differently
+derived.
+===========================================================
+END
+===========================================================
