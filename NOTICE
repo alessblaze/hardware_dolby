@@ -164,6 +164,77 @@ The udc  UDC v4.5 -> UDC v4.13 . this seems 6.2 but the
 date is 2025 so possible vendor numbers somehow differently
 derived.
 Reverse Engineering done with Nsa Ghidra. 
+
+-----------------------------------------------------------
+
+101 0x65 DolbyHeadphoneVirtualizerControl dap_cpdp_headphone_virtualizer_mode_set
+102 0x66 DolbyVirtualSpeakerVirtualizerControl dap_cpdp_speaker_virtualizer_mode_set
+103 0x67 DolbyVolumeLevelerEnable dap_cpdp_volume_leveler_enable_set
+104 0x68 IntelligentEqualizerPreset IEQ preset routing
+105 0x69 DialogEnhancementEnable dap_cpdp_de_enable_set
+106 0x6a GraphicEqualizerEnable dap_cpdp_graphic_equalizer_enable_set
+107 0x6b IntelligentEqualizerAmount dap_cpdp_ieq_amount_set
+108 0x6c DialogEnhancementAmount dap_cpdp_de_amount_set
+109 0x6d DialogEnhancementDucking dap_cpdp_de_ducking_set
+110 0x6e GraphicEqualizerBandGains dap_cpdp_graphic_equalizer_bands_set
+111 0x6f BassEnable dap_cpdp_bass_enhancer_enable_set
+112 0x70 VirtualBassEnable dap_cpdp_virtual_bass_mode_set
+113 0x71 StereoWideningAmount dap_cpdp_virtualizer_*_angle_set
+114 0x72 ReverbReductionEnable dap_cpdp_rs_enable_set
+115 0x73 ReverbReductionAmount dap_cpdp_rs_amount_set
+116 0x74 DolbyVolumeLevelerAmount dap_cpdp_volume_leveler_amount_set
+
+void DsParams(void)
+
+{
+  DsParams[] ppDVar1;
+  DsParams local_0;
+  DsParams$1 ref;
+  DsParams pDVar2;
+  
+  local_0 = new DsParams("DolbyHeadphoneVirtualizerControl",0,0x65);
+  DsParams.DolbyHeadphoneVirtualizerControl = local_0;
+  pDVar2 = new DsParams("DolbyVirtualSpeakerVirtualizerControl",1,0x66);
+  DsParams.DolbyVirtualSpeakerVirtualizerControl = pDVar2;
+  pDVar2 = new DsParams("DolbyVolumeLevelerEnable",2,0x67);
+  DsParams.DolbyVolumeLevelerEnable = pDVar2;
+  pDVar2 = new DsParams("IntelligentEqualizerPreset",3,0x68);
+  DsParams.IntelligentEqualizerPreset = pDVar2;
+  pDVar2 = new DsParams("DialogEnhancementEnable",4,0x69);
+  DsParams.DialogEnhancementEnable = pDVar2;
+  pDVar2 = new DsParams("GraphicEqualizerEnable",5,0x6a);
+  DsParams.GraphicEqualizerEnable = pDVar2;
+  pDVar2 = new DsParams("IntelligentEqualizerAmount",6,0x6b);
+  DsParams.IntelligentEqualizerAmount = pDVar2;
+  pDVar2 = new DsParams("DialogEnhancementAmount",7,0x6c);
+  DsParams.DialogEnhancementAmount = pDVar2;
+  pDVar2 = new DsParams("DialogEnhancementDucking",8,0x6d);
+  DsParams.DialogEnhancementDucking = pDVar2;
+  pDVar2 = new DsParams("GraphicEqualizerBandGains",9,0x6e);
+  DsParams.GraphicEqualizerBandGains = pDVar2;
+  pDVar2 = new DsParams("BassEnable",10,0x6f);
+  DsParams.BassEnable = pDVar2;
+  pDVar2 = new DsParams("VirtualBassEnable",0xb,0x70);
+  DsParams.VirtualBassEnable = pDVar2;
+  pDVar2 = new DsParams("StereoWideningAmount",0xc,0x71);
+  DsParams.StereoWideningAmount = pDVar2;
+  pDVar2 = new DsParams("ReverbReductionEnable",0xd,0x72);
+  DsParams.ReverbReductionEnable = pDVar2;
+  pDVar2 = new DsParams("ReverbReductionAmount",0xe,0x73);
+  DsParams.ReverbReductionAmount = pDVar2;
+  pDVar2 = new DsParams("DolbyVolumeLevelerAmount",0xf,0x74);
+  DsParams.DolbyVolumeLevelerAmount = pDVar2;
+  ppDVar1 = DsParams.$values();
+  DsParams.$VALUES = ppDVar1;
+  filledNewArrayRange(Landroid/animation/TypeEvaluator;,0x949,"null");
+  DsParams.DAP_PARAM_NAMES = ppDVar1;
+  filledNewArrayRange(Landroid/animation/TypeConverter;,0x933,local_0);
+  DsParams.params = ppDVar1;
+  ref = new DsParams$1();
+  DsParams.kParamToLen = ref;
+  return;
+}
+
 ===========================================================
 END
 ===========================================================
