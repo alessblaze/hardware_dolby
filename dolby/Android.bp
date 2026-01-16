@@ -33,3 +33,10 @@ prebuilt_etc {
     sub_dir: "sysconfig",
     system_ext_specific: true,
 }
+
+prebuilt_etc {
+    name: "privapp-co.aospa.dolby.xiaomi.xml",
+    src: "privapp-co.aospa.dolby.xiaomi.xml",
+    sub_dir: "permissions",
+    system_ext_specific: true,
+}
