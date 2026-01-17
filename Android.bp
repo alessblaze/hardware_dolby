@@ -333,7 +333,6 @@ cc_prebuilt_library_shared {
 		},
 	},
 	compile_multilib: "both",
-	relative_install_path: "soundfx",
 	prefer: true,
 	soc_specific: true,
 }
@@ -372,6 +371,7 @@ cc_prebuilt_library_shared {
     ],
 
     compile_multilib: "both",
+    relative_install_path: "soundfx",
     prefer: true,
     soc_specific: true,
 }
