@@ -53,9 +53,4 @@ At the end an example commit to properly implement it in your device tree could 
           https://github.com/Spanish-or-Vanish/android_device_xiaomi_sm8350-common/commit/5c593cbd2c19d571b7e62ea4bd6b8c864a4e1d9e
 
 # Credits:
- * [**HELLBOY017**](https://github.com/HELLBOY017)
- * [**adithya2306**](https://github.com/adithya2306)
- * [**johnmart19**](https://github.com/johnmart19)
- * [**userariii**](https://github.com/userariii)
- * [**saku-bruh**](https://github.com/saku-bruh)
- * [**ahnet-69 · he/him**](https://github.com/ahnet-69)
+  Albert Blaczykowski (Yet this offers the best quality among all the third party branches.)

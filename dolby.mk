@@ -124,8 +124,8 @@ PRODUCT_PACKAGES += \
     vendor.dolby.hardware.dms@2.0 \
     libdlbdsservice \
     liboem_specific \
-    vendor.dolby.hardware.dms@2.0-impl \
     vendor.dolby.hardware.dms@2.0-service \
+    vendor.dolby.hardware.dms@2.1-service \
     libcodec2_soft_ac4dec \
     libcodec2_soft_ddpdec \
     libcodec2_soft_dolby \
@@ -136,6 +136,10 @@ PRODUCT_PACKAGES += \
     libswdap \
     libswgamedap \
     libswvqe \
+    libquasar \
+    vendor.dolby.dms-V1-ndk \
+    vendor.dolby.dms.service \
+    libdmshal \
     libmisoundsa \
     libswspatializer_ext \
     libspatializer \
