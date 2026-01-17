@@ -1,0 +1,240 @@
+===========================================================
+Dolby Unified Decoder / AC-4 – Version Derivation Notes
+===========================================================
+
+[1] Entry points observed
+-------------------------
+- ddpdec_open()
+- ddpi_udc_init()
+- ddpi_udc_query()
+- ddpi_udc_query_init_mem()
+- displaybanner()
+
+displaybanner() is always called AFTER:
+  - memory allocation
+  - initexecparams()
+  - initsubparams()
+and BEFORE:
+  - ddpi_udc_init()
+  - ac4dec_wrapper_open()
+
+This indicates displaybanner() is the canonical
+"version / capability banner" function.
+
+-----------------------------------------------------------
+
+[2] displaybanner() – DD+ / UDC (ARM32 & ARM64)
+------------------------------------------------
+Key string references (PC-relative loads):
+
+  "*** DDPlus Unified Decoder Simulation  Version %d.%d.%d ***"
+  "udc_user"
+
+Register flow (ARM32 example):
+  ldrd   r3, r0, [r0]        ; version struct
+  ldr    r1, [r5,#0x8]       ; minor
+  strd   r0, r1, [sp]        ; pass to log
+  blx    __android_log_print
+
+=> Version numbers are NOT hardcoded strings.
+=> They come from a struct passed into displaybanner().
+
+-----------------------------------------------------------
+
+[3] ddpi_udc_init() – version gating logic
+------------------------------------------
+Critical logic:
+
+  uVar4 = param_1[0xd]       ; version selector / profile
+  if (uVar4 > 1) return 0x3ec
+
+  *(param_2 + 0x764) = uVar1 ; store codec mode
+  *(param_2 + 0x76c) = uVar4
+
+This explicitly enforces:
+  major <= 1
+  profile <= 1
+
+Which matches Dolby UDC generation 6.x constraints.
+
+-----------------------------------------------------------
+
+[4] ddpi_udc_query() – capability table indexing
+------------------------------------------------
+Observed pattern:
+
+  sub    r3, r1, #3
+  ldr    r3, [DAT_0005b878 + r3*4]
+
+DAT_0005b878 is a small static table:
+  index 0..3 only
+
+This matches:
+  major version fixed
+  minor version table-based
+
+No dynamic version bump beyond table bounds.
+
+-----------------------------------------------------------
+
+[5] ARM64 ddpdec_open() – same control flow
+-------------------------------------------
+ARM64 version mirrors ARM32:
+
+  bl displaybanner
+  cbnz w0, fail
+  bl ddpi_udc_init
+
+displaybanner() still logs:
+  "Dolby ... decoder version %s"
+
+The %s pointer comes from:
+  x19 + constant offset
+
+=> Version string is embedded in binary data,
+   not OS-provided.
+
+-----------------------------------------------------------
+
+[6] AC-4 wrapper comparison
+---------------------------
+AC-4 displaybanner():
+
+  "Dolby AC-4 decoder wrapper version %s"
+  "Dolby AC-4 decoder version %s"
+
+AC-4 explicitly prints a STRING version.
+UDC/DD+ prints NUMERIC %d.%d.%d.
+
+This confirms:
+  - UDC uses structured version fields
+  - AC-4 wrapper uses string-based versioning
+
+-----------------------------------------------------------
+
+[7] Final derived conclusion
+----------------------------
+From:
+  - version struct usage
+  - table-limited minor values
+  - uVar4 <= 1 enforcement
+  - consistent behavior across Android / iOS / macOS
+  - identical crash reproduction across platforms
+
+=> Dolby Unified Decoder generation is:
+
+     MAJOR = 6
+     MINOR = 2
+     PATCH = implementation-defined (table-based)
+
+Shorthand reference:
+  "Dolby UDC 6.2.x"
+
+                             DAT_00107990                                    XREF[1]:     ddpdec_open:0021e664(R)  
+        00107990 06              ??         06h
+        00107991 00              ??         00h
+        00107992 00              ??         00h
+        00107993 00              ??         00h
+        00107994 02              ??         02h
+        00107995 00              ??         00h
+        00107996 00              ??         00h
+        00107997 00              ??         00h
+        00107998 01              ??         01h
+        00107999 00              ??         00h
+        0010799a 00              ??         00h
+        0010799b 00              ??         00h
+        0010799c ff              ??         FFh
+        0010799d ff              ??         FFh
+        0010799e ff              ??         FFh
+        0010799f ff              ??         FFh
+
+
+-----------------------------------------------------------
+
+[8] Why NOT 6.3 / 7.x
+--------------------
+- No widened tables
+- No relaxed uVar4 checks
+- No expanded switch cases
+- No additional version fields
+
+Binary layout matches known 6.2 lineage only.
+I am not sure is that what they meant in CVE-2025-54957.
+The udc  UDC v4.5 -> UDC v4.13 . this seems 6.2 but the
+date is 2025 so possible vendor numbers somehow differently
+derived.
+Reverse Engineering done with Nsa Ghidra. 
+
+-----------------------------------------------------------
+
+101 0x65 DolbyHeadphoneVirtualizerControl dap_cpdp_headphone_virtualizer_mode_set
+102 0x66 DolbyVirtualSpeakerVirtualizerControl dap_cpdp_speaker_virtualizer_mode_set
+103 0x67 DolbyVolumeLevelerEnable dap_cpdp_volume_leveler_enable_set
+104 0x68 IntelligentEqualizerPreset IEQ preset routing
+105 0x69 DialogEnhancementEnable dap_cpdp_de_enable_set
+106 0x6a GraphicEqualizerEnable dap_cpdp_graphic_equalizer_enable_set
+107 0x6b IntelligentEqualizerAmount dap_cpdp_ieq_amount_set
+108 0x6c DialogEnhancementAmount dap_cpdp_de_amount_set
+109 0x6d DialogEnhancementDucking dap_cpdp_de_ducking_set
+110 0x6e GraphicEqualizerBandGains dap_cpdp_graphic_equalizer_bands_set
+111 0x6f BassEnable dap_cpdp_bass_enhancer_enable_set
+112 0x70 VirtualBassEnable dap_cpdp_virtual_bass_mode_set
+113 0x71 StereoWideningAmount dap_cpdp_virtualizer_*_angle_set
+114 0x72 ReverbReductionEnable dap_cpdp_rs_enable_set
+115 0x73 ReverbReductionAmount dap_cpdp_rs_amount_set
+116 0x74 DolbyVolumeLevelerAmount dap_cpdp_volume_leveler_amount_set
+
+void DsParams(void)
+
+{
+  DsParams[] ppDVar1;
+  DsParams local_0;
+  DsParams$1 ref;
+  DsParams pDVar2;
+  
+  local_0 = new DsParams("DolbyHeadphoneVirtualizerControl",0,0x65);
+  DsParams.DolbyHeadphoneVirtualizerControl = local_0;
+  pDVar2 = new DsParams("DolbyVirtualSpeakerVirtualizerControl",1,0x66);
+  DsParams.DolbyVirtualSpeakerVirtualizerControl = pDVar2;
+  pDVar2 = new DsParams("DolbyVolumeLevelerEnable",2,0x67);
+  DsParams.DolbyVolumeLevelerEnable = pDVar2;
+  pDVar2 = new DsParams("IntelligentEqualizerPreset",3,0x68);
+  DsParams.IntelligentEqualizerPreset = pDVar2;
+  pDVar2 = new DsParams("DialogEnhancementEnable",4,0x69);
+  DsParams.DialogEnhancementEnable = pDVar2;
+  pDVar2 = new DsParams("GraphicEqualizerEnable",5,0x6a);
+  DsParams.GraphicEqualizerEnable = pDVar2;
+  pDVar2 = new DsParams("IntelligentEqualizerAmount",6,0x6b);
+  DsParams.IntelligentEqualizerAmount = pDVar2;
+  pDVar2 = new DsParams("DialogEnhancementAmount",7,0x6c);
+  DsParams.DialogEnhancementAmount = pDVar2;
+  pDVar2 = new DsParams("DialogEnhancementDucking",8,0x6d);
+  DsParams.DialogEnhancementDucking = pDVar2;
+  pDVar2 = new DsParams("GraphicEqualizerBandGains",9,0x6e);
+  DsParams.GraphicEqualizerBandGains = pDVar2;
+  pDVar2 = new DsParams("BassEnable",10,0x6f);
+  DsParams.BassEnable = pDVar2;
+  pDVar2 = new DsParams("VirtualBassEnable",0xb,0x70);
+  DsParams.VirtualBassEnable = pDVar2;
+  pDVar2 = new DsParams("StereoWideningAmount",0xc,0x71);
+  DsParams.StereoWideningAmount = pDVar2;
+  pDVar2 = new DsParams("ReverbReductionEnable",0xd,0x72);
+  DsParams.ReverbReductionEnable = pDVar2;
+  pDVar2 = new DsParams("ReverbReductionAmount",0xe,0x73);
+  DsParams.ReverbReductionAmount = pDVar2;
+  pDVar2 = new DsParams("DolbyVolumeLevelerAmount",0xf,0x74);
+  DsParams.DolbyVolumeLevelerAmount = pDVar2;
+  ppDVar1 = DsParams.$values();
+  DsParams.$VALUES = ppDVar1;
+  filledNewArrayRange(Landroid/animation/TypeEvaluator;,0x949,"null");
+  DsParams.DAP_PARAM_NAMES = ppDVar1;
+  filledNewArrayRange(Landroid/animation/TypeConverter;,0x933,local_0);
+  DsParams.params = ppDVar1;
+  ref = new DsParams$1();
+  DsParams.kParamToLen = ref;
+  return;
+}
+
+===========================================================
+END
+===========================================================
