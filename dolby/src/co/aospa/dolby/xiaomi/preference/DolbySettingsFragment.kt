@@ -285,17 +285,15 @@ class DolbySettingsFragment : PreferenceFragment(),
         val swValue = dolbyController.getStereoWideningAmount(currentProfile).toString()
         val swRaw = dolbyController.getStereoWideningAmount(currentProfile)
 
-	dlog(
-	    TAG,
-	    """
-	    Stereo widening dump:
-	      profile=$currentProfile
-	      rawValue=$swRaw
-	      isOnSpeaker=$isOnSpeaker
-	      enabled=${stereoPref?.isEnabled}
-	      entries=${stereoPref?.entries?.joinToString()}
-	      entryValues=${stereoPref?.entryValues?.joinToString()}
-	    """.trimIndent()
+	android.util.Log.d(
+	    "DOLBY_XIAOMI",
+	    "Stereo widening dump: " +
+	        "profile=$currentProfile " +
+	        "rawValue=$swRaw " +
+	        "isOnSpeaker=$isOnSpeaker " +
+	        "enabled=${stereoPref?.isEnabled} " +
+	        "entries=${stereoPref?.entries?.joinToString()} " +
+	        "entryValues=${stereoPref?.entryValues?.joinToString()}"
 	)
         stereoPref?.apply {
             if (entryValues.contains(swValue)) {
@@ -303,17 +301,14 @@ class DolbySettingsFragment : PreferenceFragment(),
                 value = swValue
             } else {
                 summary = unknownRes
-                dlog(
-		    TAG,
-		    """
- 		   UNKNOWN stereo widening value!
-		      profile=$currentProfile
-		      rawValue=$swRaw
- 		     stringValue=$swValue
- 		     index=${stereoPref?.findIndexOfValue(swValue)}
- 		     entryValues=${stereoPref?.entryValues?.joinToString()}
- 		     entries=${stereoPref?.entries?.joinToString()}
-		    """.trimIndent()
+                android.util.Log.w(
+ 		   "DOLBY_XIAOMI",
+		    "UNKNOWN stereo widening! " +
+		        "profile=$currentProfile " +
+ 		       "rawValue=$swRaw " +
+ 		       "stringValue=$swValue " +
+ 		       "index=${stereoPref?.findIndexOfValue(swValue)} " +
+		        "entryValues=${stereoPref?.entryValues?.joinToString()}"
 		)
             }
         }

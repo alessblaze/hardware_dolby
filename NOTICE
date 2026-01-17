@@ -235,6 +235,49 @@ void DsParams(void)
   return;
 }
 
+INFO MISC IF YOU WORKING WITH DIFFERENT HALS AND THIS PRIV APP
+
+This part below maps the Stereo Widening in dax-default.xml. find the values that are in this
+DAX CONFIG
+ <advanced-headphone-virtualizer-rendering-config value="103,32568,11164,5090,0,3,3,3"/>
+Here the part "103" is the value
+arrays.xml in priv-app
+    <string-array name="dolby_stereo_values">
+        <item>16</item>
+        <item>35</item>
+        <item>103</item>
+        <item>160</item>
+    </string-array>
+They need to be mapped in this part in priv-app arrays.xml
+DAX CONFIG
+<dialog-enhancer-amount value="6"/>
+arrays.xml in priv-app
+    <string-array name="dolby_dialogue_values">
+        <item>0</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>6</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+find the repetative values and add them.
+DAX CONFIG
+  <profile id="6" name="Mobility_commute" group="mobility">
+arrays.xml in priv-app  
+    <string-array name="dolby_profile_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>9</item>
+        <item>3</item>
+        <item>4</item>
+        <item>8</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+You ocassionally need to add the new strings if they dont map to strings in strings.xml    
 ===========================================================
 END
 ===========================================================
