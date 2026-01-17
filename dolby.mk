@@ -35,6 +35,9 @@ AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true
 # Configs
 PRODUCT_COPY_FILES += \
     $(DOLBY_PATH)/configs/dax-default.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-default.xml \
+    $(DOLBY_PATH)/configs/dax-moto_1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-moto_1.xml \
+    $(DOLBY_PATH)/configs/dax-moto_2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-moto_3.xml \
+    $(DOLBY_PATH)/configs/dax-moto_3.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-moto_3.xml \
     $(DOLBY_PATH)/configs/media_codecs_dolby_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_dolby_audio.xml
 
 # Dolby VNDK libs
@@ -89,8 +92,9 @@ PRODUCT_VENDOR_PROPERTIES += \
 
 # Dolby Props
 PRODUCT_VENDOR_PROPERTIES += \
-    ro.vendor.dolby.dax.version=DAX3_3.8.5.20_r1 \
-    ro.vendor.audio.dolby.dax.version=DAX3_3.8.5.20_r1 \
+    ro.vendor.dolby.dax.version=DAX3_3.11.0.10_r2 \
+    ro.vendor.audio.dolby.dax.version=DAX3_3.11.0.10_r2 \
+    persist.vendor.audio.dolby.tws_tuning=true \
     ro.vendor.audio.dolby.dax.support=true \
     ro.vendor.audio.dolby.eq.half=true \
     ro.vendor.audio.dolby.surround.enable=false \
