@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <device_data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <format_version major="3" minor="7" maintenance="0"/>
-  <tool_version major="3" minor="16" maintenance="0"/>
+  <format_version major="3" minor="6" maintenance="1"/>
+  <tool_version major="3" minor="14" maintenance="0"/>
   <preset id="2" name="balanced" type="ieq">
     <data>
       <ieq-bands>
@@ -1491,8 +1491,6 @@
       <virtualizer-front-speaker-angle value="10"/>
       <virtualizer-height-speaker-angle value="10"/>
       <virtualizer-surround-speaker-angle value="10"/>
-      <virtualizer-rear-surround-speaker-angle value="10"/>
-      <virtualizer-rear-height-speaker-angle value="10"/>
       <volume-modeler-calibration value="0"/>
       <audio-optimizer-enable value="true"/>
       <volume-leveler-compressor-enable value="true"/>
@@ -1589,8 +1587,6 @@
       <virtualizer-front-speaker-angle value="10"/>
       <virtualizer-height-speaker-angle value="10"/>
       <virtualizer-surround-speaker-angle value="10"/>
-      <virtualizer-rear-surround-speaker-angle value="10"/>
-      <virtualizer-rear-height-speaker-angle value="10"/>
       <volume-modeler-calibration value="160"/>
       <audio-optimizer-enable value="false"/>
       <volume-leveler-compressor-enable value="false"/>
@@ -1687,8 +1683,6 @@
       <virtualizer-front-speaker-angle value="10"/>
       <virtualizer-height-speaker-angle value="10"/>
       <virtualizer-surround-speaker-angle value="10"/>
-      <virtualizer-rear-surround-speaker-angle value="10"/>
-      <virtualizer-rear-height-speaker-angle value="10"/>
       <volume-modeler-calibration value="160"/>
       <audio-optimizer-enable value="false"/>
       <volume-leveler-compressor-enable value="false"/>
@@ -1783,8 +1777,6 @@
       <virtualizer-front-speaker-angle value="10"/>
       <virtualizer-height-speaker-angle value="10"/>
       <virtualizer-surround-speaker-angle value="10"/>
-      <virtualizer-rear-surround-speaker-angle value="10"/>
-      <virtualizer-rear-height-speaker-angle value="10"/>
       <volume-modeler-calibration value="0"/>
       <audio-optimizer-enable value="false"/>
       <volume-leveler-compressor-enable value="false"/>
@@ -1796,7 +1788,7 @@
       <bass-mbdrc-enable value="false"/>
     </data>
   </tuning>
-  <authorized_technologies sku_name="DAX3 Android" device="dax3_android" bundle="DAP MOBILE v2.2" format="2">
+  <authorized_technologies sku_name="DAX3 Android" device="dax3_android" bundle="DAP MOBILE v2.0" format="2">
     <global_setting virtual_bass_process="1"/>
     <global_setting atmos_game_system_gain="0"/>
     <global_setting device_name="moto buds"/>
