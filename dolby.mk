@@ -22,7 +22,7 @@ PRODUCT_SOONG_NAMESPACES += \
    $(DOLBY_PATH)
 
 # Enable codec support
-AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true
+#AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true
 
 # SEPolicy
 #BOARD_VENDOR_SEPOLICY_DIRS += $(DOLBY_PATH)/sepolicy/vendor
@@ -38,6 +38,8 @@ PRODUCT_COPY_FILES += \
     $(DOLBY_PATH)/configs/dax-moto_1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-moto_1.xml \
     $(DOLBY_PATH)/configs/dax-moto_2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-moto_3.xml \
     $(DOLBY_PATH)/configs/dax-moto_3.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-moto_3.xml \
+    $(DOLBY_PATH)/configs/media_codecs_c2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/media_codecs_c2.xml \
+    $(DOLBY_PATH)/configs/dax-default-spatializer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-default-spatializer.xml \
     $(DOLBY_PATH)/configs/media_codecs_dolby_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_dolby_audio.xml
 
 # Dolby VNDK libs
@@ -59,16 +61,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(DOLBY_PATH)/configs/android.hardware.sensor.dynamic.head_tracker.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.dynamic.head_tracker.xml \
 
-# Spatial Audio: optimize spatializer effect
-PRODUCT_PROPERTY_OVERRIDES += \
-       audio.spatializer.effect.util_clamp_min=300
-
 # Spatial Audio: declare use of spatial audio
 PRODUCT_PROPERTY_OVERRIDES += \
        ro.audio.spatializer_enabled=true \
+       ro.audio.stereo_spatialization_enabled=false \
+       ro.audio.useNewDeviceInventory=true \
        ro.audio.headtracking_enabled=true \
-       ro.audio.spatializer_transaural_enabled_default=false \
-       persist.vendor.audio.spatializer.speaker_enabled=true \
 
 # Spatial Audio Proprietary blobs
 PRODUCT_PACKAGES += \
@@ -95,9 +93,6 @@ PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.dolby.dax.version=DAX3_3.11.0.10_r2 \
     ro.vendor.audio.dolby.dax.version=DAX3_3.11.0.10_r2 \
     persist.vendor.audio.dolby.tws_tuning=true \
-    ro.vendor.audio.dolby.dax.support=true \
-    ro.vendor.audio.dolby.eq.half=true \
-    ro.vendor.audio.dolby.surround.enable=false \
     vendor.audio.dolby.ds2.hardbypass=false \
     vendor.audio.dolby.ds2.enabled=false
 
