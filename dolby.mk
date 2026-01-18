@@ -22,7 +22,7 @@ PRODUCT_SOONG_NAMESPACES += \
    $(DOLBY_PATH)
 
 # Enable codec support
-#AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true
+AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true
 
 # SEPolicy
 #BOARD_VENDOR_SEPOLICY_DIRS += $(DOLBY_PATH)/sepolicy/vendor
@@ -39,7 +39,6 @@ PRODUCT_COPY_FILES += \
     $(DOLBY_PATH)/configs/dax-moto_2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-moto_3.xml \
     $(DOLBY_PATH)/configs/dax-moto_3.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-moto_3.xml \
     $(DOLBY_PATH)/configs/media_codecs_c2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/media_codecs_c2.xml \
-    $(DOLBY_PATH)/configs/dax-default-spatializer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-default-spatializer.xml \
     $(DOLBY_PATH)/configs/media_codecs_dolby_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_dolby_audio.xml
 
 # Dolby VNDK libs
