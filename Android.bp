@@ -18,6 +18,7 @@ soong_namespace {
 cc_prebuilt_library_shared {
 	name: "libdapparamstorage",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -39,6 +40,7 @@ cc_prebuilt_library_shared {
 cc_prebuilt_library_shared {
 	name: "libdlbpreg",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -60,6 +62,7 @@ cc_prebuilt_library_shared {
 cc_prebuilt_library_shared {
 	name: "vendor.dolby.hardware.dms@2.0",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -81,6 +84,7 @@ cc_prebuilt_library_shared {
 cc_prebuilt_library_shared {
 	name: "vendor.dolby.hardware.dms@2.1",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -102,6 +106,7 @@ cc_prebuilt_library_shared {
 cc_prebuilt_library_shared {
 	name: "libdlbdsservice",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -119,6 +124,7 @@ cc_prebuilt_library_shared {
 cc_prebuilt_library_shared {
 	name: "liboem_specific",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -136,6 +142,7 @@ cc_prebuilt_library_shared {
 cc_prebuilt_library_shared {
 	name: "libcodec2_soft_ac4dec",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -153,6 +160,7 @@ cc_prebuilt_library_shared {
 cc_prebuilt_library_shared {
 	name: "libcodec2_soft_ddpdec",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -170,6 +178,7 @@ cc_prebuilt_library_shared {
 cc_prebuilt_library_shared {
 	name: "libcodec2_store_dolby",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -187,6 +196,7 @@ cc_prebuilt_library_shared {
 cc_prebuilt_library_shared {
 	name: "libdeccfg",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -204,6 +214,7 @@ cc_prebuilt_library_shared {
 cc_prebuilt_binary {
 	name: "vendor.dolby.media.c2@1.0-service",
 	owner: "xiaomi",
+	vendor: true,
 	target: {
 		android_arm64: {
 			srcs: ["proprietary/vendor/bin/hw/vendor.dolby.media.c2@1.0-service"],
@@ -222,6 +233,7 @@ cc_prebuilt_binary {
 cc_prebuilt_library_shared {
 	name: "libdlbvol",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -244,6 +256,7 @@ cc_prebuilt_library_shared {
 cc_prebuilt_library_shared {
 	name: "libswdap",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -305,6 +318,7 @@ cc_prebuilt_library_shared {
 cc_prebuilt_library_shared {
 	name: "libspatializerparamstorage",
 	owner: "xiaomi",
+	vendor: true,
 	strip: {
 		none: true,
 	},
@@ -395,6 +409,7 @@ cc_prebuilt_library_shared {
 	compile_multilib: "both",
 	relative_install_path: "soundfx",
 	prefer: true,
+	vendor: true,
 	soc_specific: true,
 }
 
@@ -447,7 +462,6 @@ cc_prebuilt_library_shared {
         "vendor.dolby.dms-V1-ndk",
         "vendor.dolby.hardware.dms@2.1",
         "vendor.dolby.hardware.dms@2.0",
-
         "libbinder",
         "libbinder_ndk",
         "libcutils",
@@ -455,7 +469,6 @@ cc_prebuilt_library_shared {
         "liblog",
         "libhidlbase",
         "libdapparamstorage",
-
         "libc++",
         "libc",
         "libm",
@@ -537,5 +550,3 @@ cc_prebuilt_binary {
     relative_install_path: "hw",
     prefer: true,
 }
-
-

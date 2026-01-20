@@ -38,12 +38,12 @@ PRODUCT_COPY_FILES += \
     $(DOLBY_PATH)/configs/dax-moto_1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-moto_1.xml \
     $(DOLBY_PATH)/configs/dax-moto_2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-moto_3.xml \
     $(DOLBY_PATH)/configs/dax-moto_3.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-moto_3.xml \
-    $(DOLBY_PATH)/configs/media_codecs_c2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/media_codecs_c2.xml \
+    $(DOLBY_PATH)/configs/media_codecs_c2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_c2.xml \
     $(DOLBY_PATH)/configs/media_codecs_dolby_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_dolby_audio.xml
 
 # Dolby VNDK libs
 PRODUCT_PACKAGES += \
-    libstagefright_foundation-v33
+    libstagefright_foundation
 
 PRODUCT_PACKAGES += \
     libshim_dolby
@@ -76,14 +76,22 @@ PRODUCT_PACKAGES += \
     android.hardware.media.c2@1.0.vendor \
     android.hardware.media.c2@1.1.vendor \
     android.hardware.media.c2@1.2.vendor \
+    libavservices_minijail.vendor \
+    com.android.media.swcodec \
+    libsfplugin_ccodec \
+    libcodec2_hidl@1.0.vendor \
+    libcodec2_hidl@1.1.vendor \
     libcodec2_hidl@1.2.vendor \
-    libsfplugin_ccodec_utils.vendor \
-    libcodec2_soft_common.vendor
+    libcodec2_soft_common.vendor \
+    libcodec2_vndk.vendor \
+    libsfplugin_ccodec_utils.vendor 
+
 
 # Codec2 Props
 PRODUCT_VENDOR_PROPERTIES += \
     vendor.audio.c2.preferred=true \
     debug.c2.use_dmabufheaps=1 \
+    media.c2.dmabuf.padding=3072 \
     vendor.qc2audio.suspend.enabled=true \
     vendor.qc2audio.per_frame.flac.dec.enabled=true
 
@@ -93,7 +101,7 @@ PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.audio.dolby.dax.version=DAX3_3.11.0.10_r2 \
     persist.vendor.audio.dolby.tws_tuning=true \
     vendor.audio.dolby.ds2.hardbypass=false \
-    vendor.audio.dolby.ds2.enabled=false
+    vendor.audio.dolby.ds2.enabled=true
 
 # Remove Packages for Dolby Support
 PRODUCT_PACKAGES += \
@@ -117,28 +125,22 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     libdapparamstorage \
+    libspatializerparamstorage \
     libswspatializer \
     libdlbpreg \
-    vendor.dolby.hardware.dms@2.0 \
     libdlbdsservice \
     liboem_specific \
-    vendor.dolby.hardware.dms@2.0-service \
-    vendor.dolby.hardware.dms@2.1-service \
+    vendor.dolby.hardware.dms@2.0 \
+    vendor.dolby.hardware.dms@2.1 \
     libcodec2_soft_ac4dec \
     libcodec2_soft_ddpdec \
-    libcodec2_soft_dolby \
     libcodec2_store_dolby \
     libdeccfg \
     vendor.dolby.media.c2@1.0-service \
     libdlbvol \
     libswdap \
     libswgamedap \
-    libswvqe \
     libquasar \
     vendor.dolby.dms-V1-ndk \
     vendor.dolby.dms.service \
-    libdmshal \
-    libmisoundsa \
-    libswspatializer_ext \
-    libspatializer \
-    libquasar \
+    libdmshal
