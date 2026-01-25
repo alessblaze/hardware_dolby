@@ -283,13 +283,33 @@ class DolbySettingsFragment : PreferenceFragment(),
         }
 
         val swValue = dolbyController.getStereoWideningAmount(currentProfile).toString()
+        val swRaw = dolbyController.getStereoWideningAmount(currentProfile)
+
+	android.util.Log.d(
+	    "DOLBY_XIAOMI",
+	    "Stereo widening dump: " +
+	        "profile=$currentProfile " +
+	        "rawValue=$swRaw " +
+	        "isOnSpeaker=$isOnSpeaker " +
+	        "enabled=${stereoPref?.isEnabled} " +
+	        "entries=${stereoPref?.entries?.joinToString()} " +
+	        "entryValues=${stereoPref?.entryValues?.joinToString()}"
+	)
         stereoPref?.apply {
             if (entryValues.contains(swValue)) {
                 summary = "%s"
                 value = swValue
             } else {
                 summary = unknownRes
-                dlog(TAG, "stereo widening value $swValue unknown")
+                android.util.Log.w(
+ 		   "DOLBY_XIAOMI",
+		    "UNKNOWN stereo widening! " +
+		        "profile=$currentProfile " +
+ 		       "rawValue=$swRaw " +
+ 		       "stringValue=$swValue " +
+ 		       "index=${stereoPref?.findIndexOfValue(swValue)} " +
+		        "entryValues=${stereoPref?.entryValues?.joinToString()}"
+		)
             }
         }
 

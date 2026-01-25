@@ -76,9 +76,17 @@ PRODUCT_PACKAGES += \
     android.hardware.media.c2@1.0.vendor \
     android.hardware.media.c2@1.1.vendor \
     android.hardware.media.c2@1.2.vendor \
+    libcodec2_hidl@1.0.vendor \
+    libcodec2_hidl@1.1.vendor \
     libcodec2_hidl@1.2.vendor \
+    libavservices_minijail.vendor \
     libsfplugin_ccodec_utils.vendor \
-    libcodec2_soft_common.vendor
+    libcodec2_soft_common.vendor \
+    libcodec2_client \
+    libsfplugin_ccodec \
+    mediaswcodec \
+    com.android.media.swcodec \
+    libcodec2_vndk.vendor
 
 # Codec2 Props
 PRODUCT_VENDOR_PROPERTIES += \
@@ -128,7 +136,6 @@ PRODUCT_PACKAGES += \
     vendor.dolby.hardware.dms@2.0-service \
     libcodec2_soft_ac4dec \
     libcodec2_soft_ddpdec \
-    libcodec2_soft_dolby \
     libcodec2_store_dolby \
     libdeccfg \
     vendor.dolby.media.c2@1.0-service \
