@@ -23,8 +23,10 @@ internal class DolbyController private constructor(
     private val context: Context
 ) {
     private var dolbyEffect = DolbyAudioEffect(EFFECT_PRIORITY, audioSession = 0)
-    private val audioManager = context.getSystemService(AudioManager::class.java)
+    private val audioManager = context.getSystemService(AudioManager::class.java)!!
     private val handler = Handler(context.mainLooper)
+    private val stereoWideningSupported =
+        context.getResources().getBoolean(R.bool.dolby_stereo_widening_supported)
 
     // Restore current profile on every media session
     private val playbackCallback = object : AudioPlaybackCallback() {
@@ -57,10 +59,10 @@ internal class DolbyController private constructor(
             field = value
             dlog(TAG, "setRegisterCallbacks($value)")
             if (value) {
-                audioManager!!.registerAudioPlaybackCallback(playbackCallback, handler)
+                audioManager.registerAudioPlaybackCallback(playbackCallback, handler)
                 audioManager.registerAudioDeviceCallback(audioDeviceCallback, handler)
             } else {
-                audioManager!!.unregisterAudioPlaybackCallback(playbackCallback)
+                audioManager.unregisterAudioPlaybackCallback(playbackCallback)
                 audioManager.unregisterAudioDeviceCallback(audioDeviceCallback)
             }
         }
@@ -102,13 +104,13 @@ internal class DolbyController private constructor(
         dsOn = prefs.getBoolean(DolbyConstants.PREF_ENABLE, true)
 
         context.resources.getStringArray(R.array.dolby_profile_values)
-            .map { it.toInt() }
-            .forEach { profile ->
-                // Reset dolby first to prevent it from loading bad settings
-                dolbyEffect.resetProfileSpecificSettings(profile)
-                // Now restore our profile-specific settings
-                restoreSettings(profile)
-            }
+                .map { it.toInt() }
+                .forEach { profile ->
+                    // Reset dolby first to prevent it from loading bad settings
+                    dolbyEffect.resetProfileSpecificSettings(profile)
+                    // Now restore our profile-specific settings
+                    restoreSettings(profile)
+                }
 
         // Finally restore the current profile.
         setCurrentProfile()
@@ -209,8 +211,8 @@ internal class DolbyController private constructor(
         dlog(TAG, "setPreset: $value")
         checkEffect()
         val gains = value.split(",")
-            .map { it.toInt() }
-            .toIntArray()
+                .map { it.toInt() }
+                .toIntArray()
         dolbyEffect.setDapParameter(DsParam.GEQ_BAND_GAINS, gains, profile)
     }
 
@@ -271,11 +273,16 @@ internal class DolbyController private constructor(
     }
 
     fun getStereoWideningAmount(profile: Int = this.profile) =
-        dolbyEffect.getDapParameterInt(DsParam.STEREO_WIDENING_AMOUNT, profile).also {
-            dlog(TAG, "getStereoWideningAmount: $it")
+        if (!stereoWideningSupported) {
+            0
+        } else {
+            dolbyEffect.getDapParameterInt(DsParam.STEREO_WIDENING_AMOUNT, profile).also {
+                dlog(TAG, "getStereoWideningAmount: $it")
+            }
         }
 
     fun setStereoWideningAmount(value: Int, profile: Int = this.profile) {
+        if (!stereoWideningSupported) return
         dlog(TAG, "setStereoWideningAmount: $value")
         checkEffect()
         dolbyEffect.setDapParameter(DsParam.STEREO_WIDENING_AMOUNT, value, profile)

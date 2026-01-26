@@ -26,20 +26,36 @@ class DolbyIeqPreference(
     }
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
-        super.onBindViewHolder(holder)
-        val iconView = holder.findViewById(R.id.ieq_icon)!! as ImageView
-        val icon = AppCompatResources.getDrawable(context, getIeqIconResId())
-        iconView.setImageDrawable(icon)
-    }
+    	super.onBindViewHolder(holder)
 
-    private fun getIeqIconResId(): Int {
-        val ieqValue = value?.toIntOrNull() ?: 0
-        return when (ieqValue) {
+    	val iconView = holder.findViewById(R.id.ieq_icon) as? ImageView ?: return
+
+    	val currentValue = value
+    	val index = findIndexOfValue(currentValue)
+
+    	// Dump everything
+    	android.util.Log.d(
+        	"DolbyIeqPreference",
+        	"""
+        	IEQ dump:
+          	key=$key
+          	value=$currentValue
+          	index=$index
+          	entries=${entries?.joinToString()}
+          	entryValues=${entryValues?.joinToString()}
+        	""".trimIndent()
+    	)
+
+   	 val icon = AppCompatResources.getDrawable(context, getIeqIconResId())
+   	 iconView.setImageDrawable(icon)
+	}
+
+    private fun getIeqIconResId(): Int =
+        when (findIndexOfValue(value)) {
             0 -> R.drawable.ic_ieq_off
             1 -> R.drawable.ic_ieq_balanced
             2 -> R.drawable.ic_ieq_warm
             3 -> R.drawable.ic_ieq_detailed
-            else -> 0 // should never hit this!
+            else -> R.drawable.ic_ieq_off // should never hit this!
         }
-    }
 }

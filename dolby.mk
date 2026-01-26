@@ -22,14 +22,14 @@ PRODUCT_SOONG_NAMESPACES += \
    $(DOLBY_PATH)
 
 # Enable codec support
-AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true
+#AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true
 
 # SEPolicy
-BOARD_VENDOR_SEPOLICY_DIRS += $(DOLBY_PATH)/sepolicy/vendor
+#BOARD_VENDOR_SEPOLICY_DIRS += $(DOLBY_PATH)/sepolicy/vendor
 
 # HIDL
-DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(DOLBY_PATH)/dolby_framework_matrix.xml
-DEVICE_MANIFEST_FILE += $(DOLBY_PATH)/vendor.dolby.hardware.dms@2.0-service.xml
+#DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(DOLBY_PATH)/dolby_framework_matrix.xml
+#DEVICE_MANIFEST_FILE += $(DOLBY_PATH)/vendor.dolby.hardware.dms@2.0-service.xml
     
 # Configs
 PRODUCT_COPY_FILES += \
@@ -67,21 +67,36 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += \
     libspatialaudio \
 
-# Media C2 Vendor
+# Media looks messy hehe. will fix later.
 PRODUCT_PACKAGES += \
     libcodec2_hidl@1.0.vendor \
+    libcodec2_hidl@1.1.vendor \
+    libcodec2_hidl@1.2.vendor \
     libcodec2_soft_common.vendor \
+    libsfplugin_ccodec \
+    libsfplugin_ccodec_utils.vendor \
+    com.android.media.swcodec \
+    libstagefright_codecbase.vendor \
+    libstagefright_bufferpool@2.0.1.vendor \
+    libstagefright_framecapture_utils.vendor \
     libstagefright_softomx.vendor \
     libstagefright_softomx_plugin.vendor \
+    libstagefright_omx.vendor \
+    libmedia_omx \
+    android.hardware.media.omx@1.0-service.vendor \
+    libstagefright_omx_utils.vendor 
 
 # Dolby Props
 PRODUCT_VENDOR_PROPERTIES += \
-    ro.vendor.dolby.dax.version=DAX3_3.6.0.12_r1 \
+    ro.vendor.dolby.dax.version=DAX3_3.8.5.20_r1 \
+    ro.vendor.audio.dolby.dax.version=DAX3_3.8.5.20_r1 \
     vendor.audio.dolby.ds2.enabled=false \
     vendor.audio.dolby.ds2.hardbypass=false \
     ro.vendor.audio.dolby.dax.support=true \
     ro.vendor.audio.dolby.surround.enable=true \
-    persist.vendor.audio_fx.current=dolby
+    persist.vendor.audio_fx.current=dolby \
+    ro.vendor.audio.dolby.eq.half=true 
+    
 
 # Remove Packages for Dolby Support
 PRODUCT_PACKAGES += \
@@ -111,6 +126,7 @@ PRODUCT_PACKAGES += \
 # Dolby SoundFX
 PRODUCT_PACKAGES += \
     libhwdap \
+    libswdap \
     libswgamedap \
     libswvqe \
     libdlbvol \
